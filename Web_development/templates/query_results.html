@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Results</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        .table thead th {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+        .no-records-message {
+            color: red;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center my-4">Query Results</h1>
+
+        <!-- Display Total Sales -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title text-center">Total Sales</h3>
+                        <p class="card-text text-center display-4">{{ total_sales }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Total Sales Tax Section -->
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Total Sales Tax Paid (18%)</h4>
+                        <p class="card-text text-center display-4">{{ total_tax }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Handle No Data Found -->
+        {% if no_records_found %}
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <p class="no-records-message">No records found for the given criteria.</p>
+            </div>
+        </div>
+        {% else %}
+        <!-- Detailed Records Table -->
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <h5 class="text-center mb-4">Detailed Records</h5>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Invoice ID</th>
+                            <th>Receipt No</th>
+                            <th>Supplier Name</th>
+                            <th>Buyer Name</th>
+                            <th>Date</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in detailed_records %}
+                        <tr>
+                            <td>{{ record.Invoice_ID }}</td>
+                            <td>{{ record.Receipt_NO }}</td>
+                            <td>{{ record.Supplier_Name }}</td>
+                            <td>{{ record.Buyer_Name }}</td>
+                            <td>{{ record.Date }}</td>
+                            <td>{{ record.Item_Name }}</td>
+                            <td>{{ record.Quantity }}</td>
+                            <td>{{ record.Rate }}</td>
+                            <td>{{ record.Amount }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Back to Home Button -->
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (optional, for interactive components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

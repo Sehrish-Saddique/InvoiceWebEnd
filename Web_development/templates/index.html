@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Database</title>
+    <!-- Bootstrap CSS for quick styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS for additional styling -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        table {
+            margin-bottom: 30px;
+        }
+        table th, table td {
+            text-align: center;
+            padding: 10px;
+            vertical-align: middle;
+        }
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Invoice Management System</h1>
+            <p class="lead">View and Upload Invoices</p>
+        </div>
+        <h2>Upload Invoice (PDF/Image)</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose a PDF or Image file:</label>
+                <input type="file" class="form-control" id="file" name="file" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+        <!-- Queries -->
+        <h2>Query Invoices</h2>
+        <form action="/query" method="POST">
+            <div class="form-group">
+                <label for="company_or_ntn">Company Name or NTN:</label>
+                <input type="text" class="form-control" id="company_or_ntn" name="company_or_ntn" required>
+            </div>
+            <div class="form-group">
+                <label for="start_date">Start Date:</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" required>
+            </div>
+            <div class="form-group">
+                <label for="end_date">End Date:</label>
+                <input type="date" class="form-control" id="end_date" name="end_date" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Query</button>
+        </form>
+
+
+        <h2>Suppliers</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Supplier ID</th>
+                    <th>NTN</th>
+                    <th>Name</th>
+                    <th>Business Name</th>
+                    <th>Phone Number</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for supplier in suppliers %}
+                <tr>
+                    <td>{{ supplier.Supplier_ID }}</td>
+                    <td>{{ supplier.NTN }}</td>
+                    <td>{{ supplier.NAME }}</td>
+                    <td>{{ supplier.BUSINESS_NAME }}</td>
+                    <td>{{ supplier.Phone_Number }}</td>
+                    <td>{{ supplier.Address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Buyers</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Buyer ID</th>
+                    <th>NTN</th>
+                    <th>Name</th>
+                    <th>ST Reg No</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for buyer in buyers %}
+                <tr>
+                    <td>{{ buyer.Buyer_ID }}</td>
+                    <td>{{ buyer.NTN }}</td>
+                    <td>{{ buyer.NAME }}</td>
+                    <td>{{ buyer.S_T_REG_NO }}</td>
+                    <td>{{ buyer.Address }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Invoices</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Receipt No</th>
+                    <th>Supplier ID</th>
+                    <th>Buyer ID</th>
+                    <th>Date</th>
+                    <th>Total Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.Invoice_ID }}</td>
+                    <td>{{ invoice.Receipt_NO }}</td>
+                    <td>{{ invoice.Supplier_ID }}</td>
+                    <td>{{ invoice.Buyer_ID }}</td>
+                    <td>{{ invoice.Date }}</td>
+                    <td>{{ invoice.Total_Amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Invoice Items</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Invoice ID</th>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in invoice_items %}
+                <tr>
+                    <td>{{ item.Item_ID }}</td>
+                    <td>{{ item.Invoice_ID }}</td>
+                    <td>{{ item.Item_Name }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>{{ item.Rate }}</td>
+                    <td>{{ item.Amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
