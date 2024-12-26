@@ -28,7 +28,7 @@ Before running the application, ensure you have the following installed:
 Download or clone this project to your local machine.
 
 ```bash
-git clone <your_repository_url>
+git clone https://github.com/Sehrish-Saddique/InvoiceWebEnd.git
 ```
 
 ### 2. Install Python Dependencies
